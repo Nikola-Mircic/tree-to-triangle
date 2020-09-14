@@ -25,8 +25,7 @@ public class TreeTriangle extends Canvas implements Runnable,MouseListener {
 	private double angle;
 	private double angleStep;
 	
-	private double tick = 0;
-	private double step = 0;
+	private double step;
 	
 	public TreeTriangle() {
 		this.WIDHT = 800;
@@ -38,6 +37,7 @@ public class TreeTriangle extends Canvas implements Runnable,MouseListener {
 		this.convertion = false;
 		this.angle = Math.PI/2;
 		this.angleStep = 0.001;
+		this.step = Math.PI/6;
 		
 		JFrame frame = new JFrame();
 		frame.setSize(WIDHT, HEIGHT);
@@ -71,13 +71,13 @@ public class TreeTriangle extends Canvas implements Runnable,MouseListener {
 		}
 		
 		if(!convertion) {
-			tick++;
-			if(!(step>Math.PI*2/3))
-				step = angleStep*tick;
+			if(step<=Math.PI*2/3) {
+				step += angleStep;
+			}
 		}else {
-			tick--;
-			if(!(step<Math.PI/6))
-				step = angleStep*tick;
+			if(step>Math.PI/6) {
+				step -= angleStep;
+			}
 		}
 		
 		drawTree(WIDHT/2, HEIGHT*9/10, angle,	step, HEIGHT*2/5, img.getGraphics());
@@ -91,6 +91,7 @@ public class TreeTriangle extends Canvas implements Runnable,MouseListener {
 	private void drawTree(int startX,int startY,double angle,double step,int lenght,Graphics g) {
 		if(lenght<1)
 			return;
+
 		int x = startX + (int)(Math.cos(angle)*lenght);
 		int y = startY - (int)(Math.sin(angle)*lenght);
 		
